@@ -20,19 +20,15 @@ running = 1
 	
 laby = Labyrinth("struct_laby.txt")
 
-print(laby.position_tools)
-
 macGyver = McGyver()
 
 laby.placing_tools()
 
-print(laby.position_tools)
-print(laby.position_tools[0])
-print(type(laby.position_tools[0][1]))
-
 laby.display_game((0,0),screen)
 
 while running:
+	
+	pygame.time.Clock().tick(30)
 	
 	for event in pygame.event.get():
 		
@@ -54,10 +50,9 @@ while running:
 			elif event.key == K_DOWN:
 				macGyver.turning(laby,'down')
 				laby.display_game((macGyver.x_pixel_pos,macGyver.y_pixel_pos),screen)
-	
-
 	if (macGyver.x_cell, macGyver.y_cell) == (nbr_cells_on_board-1, nbr_cells_on_board-1) and macGyver.objects_found == 3:
-			running = 0
+		running = 0
+
 
 
 

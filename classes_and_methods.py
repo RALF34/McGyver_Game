@@ -22,11 +22,11 @@ class Labyrinth :
 		screen.blit(background,(0,0))
 		screen.blit(mcgyver,position_mcgyver)
 		screen.blit(guard,((nbr_cells_on_board-1)*lenght_cell,(nbr_cells_on_board-1)*lenght_cell))
-		if 'ether' in laby.position_tools.key():
+		if 'ether' in self.position_tools.keys():
 			screen.blit(ether,self.position_tools['ether'])
-		if 'tube' in laby.position_tools.key():
+		if 'tube' in self.position_tools.keys():
 			screen.blit(tube,self.position_tools['tube'])
-		if 'needle' in laby.position_tools.key():
+		if 'needle' in self.position_tools.keys():
 			screen.blit(needle,self.position_tools['needle'])
 		pygame.display.flip()
 		wall = pygame.image.load("WALL.png").convert()
@@ -52,7 +52,7 @@ class Labyrinth :
 				x_cell_ether = random.randint(2,nbr_cells_on_board-2)
 				y_cell_ether = random.randint(2,nbr_cells_on_board-2)
 				if lines[y_cell_ether][x_cell_ether] == "C":
-					self.position_tools['ether'] = (x_cell_ether * lenght_cell , y_ether * lenght_cell) 
+					self.position_tools['ether'] = (x_cell_ether * lenght_cell , y_cell_ether * lenght_cell) 
 					ether_correctly_placed = True
 			while not tube_correctly_placed:
 				x_cell_tube = random.randint(2,nbr_cells_on_board-2)
@@ -91,44 +91,48 @@ class McGyver:
 			if towards == 'right':
 				if self.x_cell != (nbr_cells_on_board - 1):
 					if lines[self.y_cell][self.x_cell+1] != 'M':
-						if (self.x_cell+1,self.y_cell) in laby.position_tools.values():
+						if (self.x_pixel_pos+lenght_cell , self.y_pixel_pos) in laby.position_tools.values():
 							self.objects_found += 1
 							for key in laby.position_tools.keys():
-								if laby.position_tools[key] == (self.x_cell + 1 , self.y_cell):
+								if laby.position_tools[key] == (self.x_pixel_pos+lenght_cell , self.y_pixel_pos):
 									laby.position_tools.pop(key)
+									break
 						self.x_cell += 1
 						self.x_pixel_pos = self.x_cell * lenght_cell
 		
 			if towards == 'left':
 				if self.x_cell != 0:
 					if lines[self.y_cell][self.x_cell-1] != 'M':
-						if [self.x_cell-1,self.y_cell] in laby.position_tools:
+						if (self.x_pixel_pos-lenght_cell , self.y_pixel_pos) in laby.position_tools.values():
 							self.objects_found += 1
 							for key in laby.position_tools.keys():
-								if laby.position_tools[key] == (self.x_cell - 1 , self.y_cell):
+								if laby.position_tools[key] == (self.x_pixel_pos-lenght_cell , self.y_pixel_pos):
 									laby.position_tools.pop(key)
+									break
 						self.x_cell = self.x_cell-1
 						self.x_pixel_pos = self.x_cell * lenght_cell
 				
 			if towards == 'up':
 				if self.y_cell != 0:
 					if lines[self.y_cell-1][self.x_cell] != 'M':
-						if [self.x_cell,self.y_cell-1] in laby.position_tools:
+						if (self.x_pixel_pos , self.y_pixel_pos-lenght_cell) in laby.position_tools.values():
 							self.objects_found += 1
 							for key in laby.position_tools.keys():
-								if laby.position_tools[key] == (self.x_cell , self.y_cell - 1):
+								if laby.position_tools[key] == (self.x_pixel_pos , self.y_pixel_pos-lenght_cell):
 									laby.position_tools.pop(key)
+									break
 						self.y_cell = self.y_cell-1
 						self.y_pixel_pos = self.y_cell * lenght_cell
 		
 			if towards == 'down':
 				if self.y_cell != (nbr_cells_on_board - 1):
 					if lines[self.y_cell+1][self.x_cell] != 'M':
-						if [self.x_cell,self.y_cell+1] in laby.position_tools:
+						if (self.x_pixel_pos , self.y_pixel_pos+lenght_cell) in laby.position_tools.values():
 							self.objects_found += 1
-							for key in laby.position_tools.key():
-								if laby.position_tools[key] == (self.x_cell , self.y_cell + 1):
+							for key in laby.position_tools.keys():
+								if laby.position_tools[key] == (self.x_pixel_pos , self.y_pixel_pos+lenght_cell):
 									laby.position_tools.pop(key)
+									break
 						self.y_cell += 1
 						self.y_pixel_pos = self.y_cell * lenght_cell
 				
