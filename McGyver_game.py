@@ -3,7 +3,7 @@ Game "Trapped in the labyrinthe"
 McGyver has to collect three objects and reach the exit of the labyrinthe 
 
 Python script
-Fichiers : ,McGyver_game.py, classes_and_methods.py, constants.py
+Fichiers : ,McGyver_game.py, classes_and_methods.py, constants.py, struct_laby.txt
 """
 
 import pygame
@@ -17,17 +17,22 @@ pygame.init()
 screen = pygame.display.set_mode((nbr_cells_on_board * lenght_cell, nbr_cells_on_board * lenght_cell))
 
 running = 1
-while running:
 	
-	laby = Labyrinth("struct_laby.txt")
+laby = Labyrinth("struct_laby.txt")
 
-	macGyver = McGyver()
+print(laby.position_tools)
 
-	laby.placing_tools(screen)
+macGyver = McGyver()
 
-	laby.display_game((0,0),screen)
+laby.placing_tools()
 
-	pygame.time.Clock().tick(30)
+print(laby.position_tools)
+print(laby.position_tools[0])
+print(type(laby.position_tools[0][1]))
+
+laby.display_game((0,0),screen)
+
+while running:
 	
 	for event in pygame.event.get():
 		
@@ -39,19 +44,20 @@ while running:
 				
 			if event.key == K_RIGHT:
 				macGyver.turning(laby,'right')
+				laby.display_game((macGyver.x_pixel_pos,macGyver.y_pixel_pos),screen)
 			elif event.key == K_LEFT:
 				macGyver.turning(laby,'left')
+				laby.display_game((macGyver.x_pixel_pos,macGyver.y_pixel_pos),screen)
 			elif event.key == K_UP:
 				macGyver.turning(laby,'up')
+				laby.display_game((macGyver.x_pixel_pos,macGyver.y_pixel_pos),screen)
 			elif event.key == K_DOWN:
-				macGyver.turning(laby,'down')			
-			
-		
-	laby.display_game((mcgyver.pixel_pos,mcgyver.y_pixel_pos),screen)
+				macGyver.turning(laby,'down')
+				laby.display_game((macGyver.x_pixel_pos,macGyver.y_pixel_pos),screen)
 	
 
 	if (macGyver.x_cell, macGyver.y_cell) == (nbr_cells_on_board-1, nbr_cells_on_board-1) and macGyver.objects_found == 3:
-		running = 0
+			running = 0
 
 
 
