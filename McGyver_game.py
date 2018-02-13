@@ -50,15 +50,22 @@ while running:
 			elif event.key == K_DOWN:
 				macGyver.turning(laby, 'down')
 
-		laby.display_game((macGyver.x_pixel_pos, macGyver.y_pixel_pos),\
+			laby.display_game((macGyver.x_pixel_pos, macGyver.y_pixel_pos),\
 			               screen)
 		
-		pygame.display.flip()
+			pygame.display.flip()
 
 	if (macGyver.x_cell, macGyver.y_cell) == \
-	   (nbr_cells_on_board-1, nbr_cells_on_board-1) and \
-	    macGyver.tools_found == 3:
-		running = 0
+	   (nbr_cells_on_board-1, nbr_cells_on_board-1):
+		if macGyver.tools_found == 3:
+			screen.fill((234, 234, 234))
+			success = pygame.image.load("you've_won.jpg").convert()
+			screen.blit(success, (0.15*nbr_cells_on_board*lenght_cell, 0.4*nbr_cells_on_board*lenght_cell))
+		else:
+			screen.fill((107, 133, 237))
+			defeat = pygame.image.load("you've_lost.png").convert()
+			screen.blit(defeat, (0.1*nbr_cells_on_board*lenght_cell, 0.3*nbr_cells_on_board*lenght_cell))
+		pygame.display.flip()
 
 
 
